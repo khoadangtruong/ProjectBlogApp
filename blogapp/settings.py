@@ -107,11 +107,11 @@ WSGI_APPLICATION = 'blogapp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'MyBlog',
-        'USER': 'khoadangtruong',
-        'PASSWORD': 'vuaphaan123',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': '',
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -167,8 +167,8 @@ LOGIN_REDIRECT_URL = '/'
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
-            'client_id': '319863484078-8t0ntljcude74f5tntslk14bllh2damc.apps.googleusercontent.com',
-            'secret': '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',
+            'client_id': '',
+            'secret': '',
             'key': ''
         },
         'SCOPE': [
