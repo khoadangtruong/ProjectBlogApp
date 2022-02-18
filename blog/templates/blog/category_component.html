@@ -1,0 +1,11 @@
+<div class="card" >
+    <div class="card-header">
+        Category
+    </div>
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item"><a style="color: black" href="{% url 'blog-index' %}">All</a></li>
+        {% for category in categories %}
+            <li class="list-group-item"><a style="color: black" href="{% url 'blog-index' %}?q={{ category.name }}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+</div>

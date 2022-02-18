@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load socialaccount %}
+{% block content %}
+<div class="container">
+    <form method="post" action="">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="exampleInputUsername">Username</label>
+            <input required type="username" name="username" class="form-control" id="exampleInputUsername">
+        </div>
+        <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            <input required type="password" name="password" class="form-control" id="exampleInputPassword1">
+        </div>
+        <button type="submit" class="btn btn-success">Login</button> or 
+        <a class="btn btn-info" href="{% url 'register' %}" role="button">Register</a> <hr>
+        <a href="{% provider_login_url 'google' %}" class="btn btn-danger" role="button" aria-pressed="true">Google</a>
+    </form>
+</div>
+{% endblock %}

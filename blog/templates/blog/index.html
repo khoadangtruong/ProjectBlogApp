@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% block content %}
+    <style>
+        .img-thumbnail {
+            height: 150px;
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                {% include 'blog/category_component.html' %}
+            </div>
+            
+            <div class="col-md-9 my-2">
+                {{ blog_count }} Blogs Total -- <a class="btn btn-outline-primary" href="{% url 'blog-create' %}">+ Create Blog</a>
+                <div class="row">
+                    {% for blog in blogs %}
+                        <div class="col-md-4">
+                            <div class="card my-2">
+                                <img class="img-thumbnail" src="{{ blog.logo.url }}" alt="Card image cap">
+                                <div class="card-body">
+                                    <h4 class="card-text">{{ blog.name }}</h4>
+                                    <p class="card-text">{{ blog.description }}</p>
+                                    <small class="card-text">Category: {{ blog.category.name }} - </small>
+                                    <small class="card-text">@{{ blog.creator.username }}</small>
+                                </div>
+                                <a class="btn btn-outline-dark btn-sm m-1" href="{% url 'blog-detail' blog.id %}">View</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
