@@ -1,11 +1,16 @@
 from django.db.models import Q
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
 from .forms import BlogForm
 from .models import Category, Blog, Comment
+from .tasks import test_func
 
 # Create your views here.
+def test_celery(request):
+    test_func.delay()
+    return HttpResponse('Done')
 
 # ========== Blog Index ==========
 # ========== Blog Index ==========
@@ -16,7 +21,8 @@ def index(request):
 
     blogs = Blog.objects.filter(
         Q(category__name__icontains = q) | 
-        Q(name__icontains = q)
+        Q(name__icontains = q) |
+        Q(description__icontains = q)
     )
     categories = Category.objects.all()
     blog_count = blogs.count()

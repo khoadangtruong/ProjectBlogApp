@@ -20,11 +20,15 @@ class Blog(models.Model):
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         ordering = ['-updated', '-created']
+    
+    def __str__(self):
+        return self.name
+    
+    @property
+    def comments(self):
+        return self.comment_set.all()
 
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete = models.CASCADE)
