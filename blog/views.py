@@ -5,12 +5,8 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import BlogForm
 from .models import Category, Blog, Comment
-from .tasks import test_func
 
 # Create your views here.
-def test_celery(request):
-    test_func.delay()
-    return HttpResponse('Done')
 
 # ========== Blog Index ==========
 # ========== Blog Index ==========

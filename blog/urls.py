@@ -10,6 +10,4 @@ urlpatterns = [
     path('comment-delete/<str:pk>', views.commentDelete, name = 'comment-delete'),
     path('blog-update/<str:pk>', views.blogUpdate, name = 'blog-update'),
 
-    path('test-celery/', views.test_celery, name = 'test-celery'),
-
 ]

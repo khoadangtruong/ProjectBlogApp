@@ -9,10 +9,10 @@ def apiOverview(request):
         'login': 'auth/login/',
         'logout': 'auth/logout/',
 
-        'List': 'blog-list/',
-        'Create': 'blog-create/',
-        'Detail': 'blog-detail/<str:pk>/',
-        'Update': 'blog-update/<str:pk>/',
-        'Delete': 'blog-list//<str:pk>/'
+        'List': 'blogs/',
+        'Create': 'blogs/',
+        'Detail': '<str:pk>/',
+        'Update': '<str:pk>/',
+        'Delete': '<str:pk>/'
     }
     return Response(api_urls)

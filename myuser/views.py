@@ -1,11 +1,14 @@
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from django_celery_beat.models import CrontabSchedule, PeriodicTask
+
+from .forms import RegisterForm
+from .tasks import send_confirmation_mail_task
 
 # Create your views here.
-
 
 def userLogin(request):
 
@@ -37,15 +40,16 @@ def userLogout(request):
 
 def userRegister(request):
 
-    form = UserCreationForm()
+    form = RegisterForm()
 
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save(commit = False)
             user.username = user.username.lower()
             user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
+            send_confirmation_mail_task.delay(user.email)
             return redirect('blog-index')
         else:
             messages.error(request, 'Opps! Some thing wrong')
@@ -55,3 +59,12 @@ def userRegister(request):
     }
 
     return render(request, 'myuser/register.html', context)
+
+# def schedule_mails(request):
+#     schedule, created = CrontabSchedule.objects.get_or_create(hour = 16, minute = 30)
+#     task = PeriodicTask.objects.create(
+#         crontab = schedule, 
+#         task = 'send_all_mail_task', 
+#         name = 'schedule_mails_task_1'
+#     )
+#     return HttpResponse('Done')
