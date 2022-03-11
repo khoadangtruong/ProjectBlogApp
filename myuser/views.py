@@ -4,9 +4,11 @@ from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django_celery_beat.models import CrontabSchedule, PeriodicTask
+from celery import current_app
 
 from .forms import RegisterForm
 from .tasks import send_confirmation_mail_task
+from status.tasks import db_health_check_task 
 
 # Create your views here.
 
@@ -50,6 +52,7 @@ def userRegister(request):
             user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             send_confirmation_mail_task.delay(user.email)
+           
             return redirect('blog-index')
         else:
             messages.error(request, 'Opps! Some thing wrong')
@@ -68,3 +71,4 @@ def userRegister(request):
 #         name = 'schedule_mails_task_1'
 #     )
 #     return HttpResponse('Done')
+

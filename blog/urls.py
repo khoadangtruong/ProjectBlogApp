@@ -9,5 +9,4 @@ urlpatterns = [
     path('blog-delete/<str:pk>', views.blogDelete, name = 'blog-delete'),
     path('comment-delete/<str:pk>', views.commentDelete, name = 'comment-delete'),
     path('blog-update/<str:pk>', views.blogUpdate, name = 'blog-update'),
-
 ]

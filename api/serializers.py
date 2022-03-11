@@ -22,7 +22,7 @@ class CommentSerializer(ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = ['id', 'user', 'body']
+        fields = ['id', 'user', 'body', 'blog']
 
 class BlogSerializer(ModelSerializer):
     creator = CreatorSerializer(many = False, read_only = True)

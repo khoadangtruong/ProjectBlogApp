@@ -295,6 +295,13 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Ho_Chi_Minh'
 CELERY_RESULT_BACKEND = 'django-db'
 
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
+# accept_content = ['application/json']
+# result_serializer = 'json'
+# task_serializer = 'json'
+# timezone = 'Asia/Ho_Chi_Minh'
+# result_backend = 'django-db'
+
 # CELERY BEAT Settings
 
 CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'

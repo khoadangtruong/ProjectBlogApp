@@ -3,10 +3,11 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import (
+    ListAPIView,
     ListCreateAPIView,
     RetrieveUpdateDestroyAPIView
 )
-from blog.models import Blog
+from blog.models import Blog, Comment
 from .serializers import (
     BlogSerializer,
     
@@ -16,9 +17,15 @@ from rest_framework.permissions import IsAuthenticated
 class BlogAPIView(ListCreateAPIView):
 
     serializer_class = BlogSerializer
-    queryset = Blog.objects.all().prefetch_related('comment_set')
+    queryset = Blog.objects.select_related('creator').all()
 
     permission_classes = [IsAuthenticated]
+
+    # def list(self, request):
+    #     queryset = self.get_queryset()
+    #     serializer = self.serializer_class(queryset, many = True)
+    #     return Response(serializer.data)
+
 
     def post(self, request):
         serializer = self.serializer_class(data = request.data)
@@ -29,7 +36,7 @@ class BlogAPIView(ListCreateAPIView):
 
 class BlogDetailAPIView(RetrieveUpdateDestroyAPIView):
 
-    queryset = Blog.objects.all().prefetch_related('comment_set')
+    queryset = Blog.objects.select_related('creator').all()
     serializer_class = BlogSerializer
 
     permission_classes = [IsAuthenticated]
