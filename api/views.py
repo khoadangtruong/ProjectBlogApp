@@ -16,8 +16,11 @@ from rest_framework.permissions import IsAuthenticated
 
 class BlogAPIView(ListCreateAPIView):
 
+    queryset = Blog.objects \
+    .select_related('creator') \
+    .prefetch_related('comment_set').all()
+
     serializer_class = BlogSerializer
-    queryset = Blog.objects.select_related('creator').all()
 
     permission_classes = [IsAuthenticated]
 
@@ -36,7 +39,7 @@ class BlogAPIView(ListCreateAPIView):
 
 class BlogDetailAPIView(RetrieveUpdateDestroyAPIView):
 
-    queryset = Blog.objects.select_related('creator').all()
+    queryset = Blog.objects.select_related('creator').prefetch_related('comment_set').all()
     serializer_class = BlogSerializer
 
     permission_classes = [IsAuthenticated]

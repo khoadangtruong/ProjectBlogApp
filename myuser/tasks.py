@@ -1,7 +1,7 @@
 from django.core.mail import send_mail
 from django.contrib.auth.models import User
 
-from celery import shared_task
+from celery import shared_task, Celery
 from celery.utils.log import get_task_logger
 from celery.exceptions import SoftTimeLimitExceeded
 

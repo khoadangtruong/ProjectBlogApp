@@ -13,6 +13,7 @@ app.conf.enable_utc = False
 app.conf.update(timezone = 'Asia/Ho_Chi_Minh')
 app.config_from_object(settings, namespace = 'CELERY')
 
+
 # Celery Beat Settings
 app.conf.beat_schedule = {
 
@@ -29,19 +30,7 @@ app.conf.beat_schedule = {
     },
 
     # 'test_task_every_30_1': {
-    #     'task': 'blog.tasks.test_task_1',
-    #     'schedule': 30.0,
-    #     # 'args': ()
-    # },
-
-    # 'test_task_every_30_2': {
-    #     'task': 'blog.tasks.test_task_2',
-    #     'schedule': 30.0,
-    #     # 'args': ()
-    # },
-
-    # 'test_task_every_30_3': {
-    #     'task': 'blog.tasks.test_task_3',
+    #     'task': 'blog.tasks.test_task',
     #     'schedule': 30.0,
     #     # 'args': ()
     # },
@@ -59,3 +48,4 @@ def debug_task(self):
 # beat: celery -A blogapp beat -l info
 # status: celery -A blogapp status
 # bind, name, ignore_result, rate_limit, time_limit, soft_time_limit, track_started
+# celery flower: celery -A blogapp.celery flower --address=127.0.0.1 --port=5555

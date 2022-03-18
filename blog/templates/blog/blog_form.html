@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 {% block content %}
     <div class="container">
         <form action="" method="POST" enctype="multipart/form-data">
@@ -30,10 +31,10 @@
                 {{ form.body }}
             </div>
             <div class="form-group">
-                <label>Upload image</label>
-                <input name="logo" type="file" multiple class="form-control-file">
-            </div>
-
+                <label for="exampleFormControlTextarea1">Upload image</label>
+                {{ form.logo }}
+            </div> 
+            {% comment %} {{ form|crispy }} {% endcomment %}
             <div class="form__action">
                 <a class="btn btn-outline-danger" href="{{request.META.HTTP_REFERER}}">Cancel</a>
                 <button class="btn btn-outline-success" type="submit">Submit</button>

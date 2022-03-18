@@ -6,6 +6,7 @@ urlpatterns = [
     path('login/', views.userLogin, name = 'login'),
     path('logout/', views.userLogout, name = 'logout'),
     path('register/', views.userRegister, name = 'register'),
+    path('profile/', views.profile, name = 'profile'),
     
     # path('schedulemail/', views.schedule_mails, name = 'schedulemail')
 ]

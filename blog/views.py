@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
-from .forms import BlogForm
+from .forms import BlogForm, BlogUpdateForm
 from .models import Category, Blog, Comment
 
 # Create your views here.
@@ -15,7 +15,7 @@ from .models import Category, Blog, Comment
 def index(request):
     q = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    blogs = Blog.objects.filter(
+    blogs = Blog.objects.select_related('creator').filter(
         Q(category__name__icontains = q) | 
         Q(name__icontains = q) |
         Q(description__icontains = q)
@@ -64,7 +64,7 @@ def blog(request, pk):
     blog = Blog.objects.get(pk = pk)
     blog_comments = blog.comment_set.all()
     participants = blog.participants.all()
-
+    
     if request.method == 'POST':
         comment = Comment.objects.create(
             user = request.user,
@@ -84,7 +84,7 @@ def blog(request, pk):
 
 def blogUpdate(request, pk):
     blog = Blog.objects.get(pk = pk)
-    form = BlogForm(instance = blog)
+    form = BlogUpdateForm(instance = blog)
     categories = Category.objects.all()
 
     if request.method == 'POST':
@@ -95,6 +95,7 @@ def blogUpdate(request, pk):
         blog.creator = request.user
         blog.description = request.POST.get('description')
         blog.body = request.POST.get('body')
+        # blog.logo = request.FILES.get('logo')
         blog.save()
         return redirect('blog-detail', pk = blog.id)
 
@@ -103,7 +104,7 @@ def blogUpdate(request, pk):
         'categories': categories,
         'blog': blog,
     }
-    return render(request, 'blog/blog_form.html', context)
+    return render(request, 'blog/blog_update_form.html', context)
 
 
 def blogDelete(request, pk):

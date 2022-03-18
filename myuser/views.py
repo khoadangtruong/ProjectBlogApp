@@ -3,12 +3,12 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django_celery_beat.models import CrontabSchedule, PeriodicTask
-from celery import current_app
+from django.contrib.auth.decorators import login_required
 
-from .forms import RegisterForm
+from django_celery_beat.models import CrontabSchedule, PeriodicTask
+
+from .forms import RegisterForm, UserUpdateForm, ProfileUpdateForm
 from .tasks import send_confirmation_mail_task
-from status.tasks import db_health_check_task 
 
 # Create your views here.
 
@@ -51,8 +51,7 @@ def userRegister(request):
             user.username = user.username.lower()
             user.save()
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-            send_confirmation_mail_task.delay(user.email)
-           
+            # send_confirmation_mail_task.delay(user.email)
             return redirect('blog-index')
         else:
             messages.error(request, 'Opps! Some thing wrong')
@@ -62,6 +61,30 @@ def userRegister(request):
     }
 
     return render(request, 'myuser/register.html', context)
+
+@login_required(login_url = 'login')
+def profile(request):
+    
+    if request.method == 'POST':
+        u_form = UserUpdateForm(request.POST, instance = request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+            messages.success(request, f'Your account has been updated!')
+            return redirect('profile')
+    
+    else:
+        u_form = UserUpdateForm(instance = request.user)
+        p_form = ProfileUpdateForm(instance = request.user.profile)
+    
+    context = {
+        'u_form': u_form,
+        'p_form': p_form,
+    }
+
+    return render(request, 'myuser/profile.html', context)
 
 # def schedule_mails(request):
 #     schedule, created = CrontabSchedule.objects.get_or_create(hour = 16, minute = 30)

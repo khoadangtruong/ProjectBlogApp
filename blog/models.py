@@ -11,12 +11,13 @@ class Category(models.Model):
 
 class Blog(models.Model):
     name = models.CharField(max_length = 256)
+    slug = models.SlugField(null = True, blank = True)
     category = models.ForeignKey(Category, on_delete = models.SET_NULL, null = True)
     creator = models.ForeignKey(User, on_delete = models.SET_NULL, null = True)
     participants = models.ManyToManyField(User, related_name = 'participants', blank = True)
     description = models.TextField()
     body = models.TextField()
-    logo = models.ImageField(default = 'default-img.jpg', null = True, blank = True)
+    logo = models.ImageField(null = True, blank = True)
     created = models.DateTimeField(auto_now_add = True)
     updated = models.DateTimeField(auto_now = True)
 

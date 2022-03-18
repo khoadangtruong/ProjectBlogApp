@@ -1,6 +1,3 @@
-import random
-import requests
-
 from celery import shared_task, current_app
 from celery.utils.log import get_task_logger
 
@@ -13,7 +10,7 @@ from blogapp.celery import app
 
 logger = get_task_logger(__name__)
 
-# @app.task(bind = True, name = "db_health_check_task", ignore_result = False)
+# @app.task(bind = True, name = "db_health_check_task")
 @shared_task(bind = True, name = "db_health_check_task")
 def db_health_check_task(self):
     logger.info(f'ID: {self.request.id} - DB Health Check')

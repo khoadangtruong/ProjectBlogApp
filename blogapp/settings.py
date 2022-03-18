@@ -294,6 +294,7 @@ CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Ho_Chi_Minh'
 CELERY_RESULT_BACKEND = 'django-db'
+# CELERY_IGNORE_RESULT = True
 
 # CELERY_BROKER_URL = 'redis://127.0.0.1:6379'
 # accept_content = ['application/json']
